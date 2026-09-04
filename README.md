@@ -1,5 +1,9 @@
 # 寂辉知识库采访
 
+> **获取 Skill：** [安装页面](https://skills.sh/Amentman/jihui-interview) · [直接下载 ZIP](https://github.com/Amentman/jihui-interview/releases/latest/download/jihui-interview.zip) · [完整安装说明](#安装)
+>
+> 一行安装：`npx skills add Amentman/jihui-interview@jihui-interview -g -y`
+
 这是一个给中文业务经营者使用的 Codex Skill。它通过一次 19 题访谈，把老板脑子里的产品、客户、案例、方法、个人定位和内容方向，整理成可以继续维护的本地知识库。
 
 ## 这个 Skill 解决什么问题
