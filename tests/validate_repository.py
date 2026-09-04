@@ -39,6 +39,10 @@ def main() -> None:
         assert_relative_markdown_links_exist(markdown_path)
     assert all(path.stat().st_size > 0 for path in (skill_dirs[0] / "references").glob("*.md"))
 
+    workflow = (ROOT / ".github" / "workflows" / "test.yml").read_text()
+    assert "Install packaged Skill and verify discovery" in workflow
+    assert 'skills add "$GITHUB_WORKSPACE"' in workflow
+
     forbidden = [
         "/" + "Users/" + "amant/",
         "space" + "_id:",

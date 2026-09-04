@@ -15,5 +15,16 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
       - name: Validate skill metadata
         run: python3 tests/validate_repository.py
+      - name: Install packaged Skill and verify discovery
+        run: |
+          smoke_root="$(mktemp -d)"
+          git -C "$smoke_root" init -q
+          cd "$smoke_root"
+          npx --yes skills add "$GITHUB_WORKSPACE" --skill jihui-interview --agent codex --yes --copy
+          test -f .agents/skills/jihui-interview/SKILL.md
+          npx --yes skills list --json | python3 -c 'import json, sys; assert any(item["name"] == "jihui-interview" for item in json.load(sys.stdin))'
