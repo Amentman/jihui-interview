@@ -10,6 +10,8 @@ npx skills add Amentman/jihui-interview@jihui-interview -g -y
 
 安装后可以说：`使用 $jihui-interview 开始采访，并帮我搭建业务知识库。`
 
+这是纯指令型 Skill，无需额外安装 Python、Node.js 或第三方服务。
+
 ## 它会做什么
 
 - 先读取已有目录，已有知识库就沿用原结构。

@@ -8,9 +8,18 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def assert_relative_markdown_links_exist(markdown_path: Path) -> None:
+    text = markdown_path.read_text()
+    for target in re.findall(r"\[[^\]]+\]\(([^)]+)\)", text):
+        target = target.strip("<>").split("#", 1)[0]
+        if not target or "://" in target or target.startswith("#"):
+            continue
+        assert (markdown_path.parent / target).exists(), f"broken link: {markdown_path}:{target}"
+
+
 def main() -> None:
     manifest = json.loads((ROOT / ".codex-plugin" / "plugin.json").read_text())
-    assert manifest["version"] == "0.1.0"
+    assert manifest["version"] == "0.2.0"
     assert manifest["author"]["name"] == "Amant"
     assert manifest["skills"] == "./skills/"
 
@@ -26,6 +35,9 @@ def main() -> None:
     readme = (ROOT / "README.md").read_text()
     assert f"Amentman/{manifest['name']}" in readme
     assert "npx skills add" in readme
+    for markdown_path in [ROOT / "README.md", skill_dirs[0] / "SKILL.md"]:
+        assert_relative_markdown_links_exist(markdown_path)
+    assert all(path.stat().st_size > 0 for path in (skill_dirs[0] / "references").glob("*.md"))
 
     forbidden = [
         "/" + "Users/" + "amant/",
